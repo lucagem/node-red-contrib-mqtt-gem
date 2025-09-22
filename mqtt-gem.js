@@ -14,7 +14,7 @@
  * limitations under the License.
  **/
 
-module.exports = function(RED) {
+module.exports = function (RED) {
     "use strict";
     const { getProxyForUrl } = require('./lib/proxyHelper');
     var mqtt = require("mqtt");
@@ -22,30 +22,30 @@ module.exports = function(RED) {
     var HttpsProxyAgent = require('https-proxy-agent');
     var url = require('url');
     const knownMediaTypes = {
-        "text/css":"string",
-        "text/html":"string",
-        "text/plain":"string",
-        "application/json":"json",
-        "application/octet-stream":"buffer",
-        "application/pdf":"buffer",
-        "application/x-gtar":"buffer",
-        "application/x-gzip":"buffer",
-        "application/x-tar":"buffer",
-        "application/xml":"string",
-        "application/zip":"buffer",
-        "audio/aac":"buffer",
-        "audio/ac3":"buffer",
-        "audio/basic":"buffer",
-        "audio/mp4":"buffer",
-        "audio/ogg":"buffer",
-        "image/bmp":"buffer",
-        "image/gif":"buffer",
-        "image/jpeg":"buffer",
-        "image/tiff":"buffer",
-        "image/png":"buffer",
+        "text/css": "string",
+        "text/html": "string",
+        "text/plain": "string",
+        "application/json": "json",
+        "application/octet-stream": "buffer",
+        "application/pdf": "buffer",
+        "application/x-gtar": "buffer",
+        "application/x-gzip": "buffer",
+        "application/x-tar": "buffer",
+        "application/xml": "string",
+        "application/zip": "buffer",
+        "audio/aac": "buffer",
+        "audio/ac3": "buffer",
+        "audio/basic": "buffer",
+        "audio/mp4": "buffer",
+        "audio/ogg": "buffer",
+        "image/bmp": "buffer",
+        "image/gif": "buffer",
+        "image/jpeg": "buffer",
+        "image/tiff": "buffer",
+        "image/png": "buffer",
     }
     //#region "Supporting functions"
-    function matchTopic(ts,t) {
+    function matchTopic(ts, t) {
         if (ts == "#") {
             return true;
         }
@@ -58,10 +58,10 @@ module.exports = function(RED) {
            {ShareName} is a character string that does not include "/", "+" or "#"
            {filter} The remainder of the string has the same syntax and semantics as a Topic Filter in a non-shared subscription. Refer to section 4.7.
         */
-        else if(ts.startsWith("$share")){
-            ts = ts.replace(/^\$share\/[^#+/]+\/(.*)/g,"$1");
+        else if (ts.startsWith("$share")) {
+            ts = ts.replace(/^\$share\/[^#+/]+\/(.*)/g, "$1");
         }
-        var re = new RegExp("^"+ts.replace(/([\[\]\?\(\)\\\\$\^\*\.|])/g,"\\$1").replace(/\+/g,"[^/]+").replace(/\/#$/,"(\/.*)?")+"$");
+        var re = new RegExp("^" + ts.replace(/([\[\]\?\(\)\\\\$\^\*\.|])/g, "\\$1").replace(/\+/g, "[^/]+").replace(/\/#$/, "(\/.*)?") + "$");
         return re.test(t);
     }
 
@@ -77,16 +77,16 @@ module.exports = function(RED) {
     function setIntProp(src, dst, propName, minVal, maxVal, def) {
         if (hasProperty(src, propName)) {
             var v = parseInt(src[propName]);
-            if(isNaN(v)) return;
-            if(minVal != null) {
-                if(v < minVal) return;
+            if (isNaN(v)) return;
+            if (minVal != null) {
+                if (v < minVal) return;
             }
-            if(maxVal != null) {
-                if(v > maxVal) return;
+            if (maxVal != null) {
+                if (v > maxVal) return;
             }
             dst[propName] = v;
         } else {
-            if(def != undefined) dst[propName] = def;
+            if (def != undefined) dst[propName] = def;
         }
     }
 
@@ -120,7 +120,7 @@ module.exports = function(RED) {
         if (src[propName] && typeof src[propName] == "string") {
             dst[propName] = src[propName];
         } else {
-            if(def != undefined) dst[propName] = def;
+            if (def != undefined) dst[propName] = def;
         }
     }
 
@@ -133,13 +133,13 @@ module.exports = function(RED) {
      */
     function setBoolProp(src, dst, propName, def) {
         if (src[propName] != null) {
-            if(src[propName] === "true" || src[propName] === true) {
+            if (src[propName] === "true" || src[propName] === true) {
                 dst[propName] = true;
-            } else if(src[propName] === "false" || src[propName] === false) {
+            } else if (src[propName] === "false" || src[propName] === false) {
                 dst[propName] = false;
             }
         } else {
-            if(def != undefined) dst[propName] = def;
+            if (def != undefined) dst[propName] = def;
         }
     }
 
@@ -155,22 +155,22 @@ module.exports = function(RED) {
             let _clone = {};
             let count = 0;
             let keys = Object.keys(srcUserProperties);
-            if(!keys || !keys.length) return null;
+            if (!keys || !keys.length) return null;
             keys.forEach(key => {
                 let val = srcUserProperties[key];
-                if(typeof val === "string") {
+                if (typeof val === "string") {
                     count++;
                     _clone[key] = val;
                 } else if (val !== undefined && val !== null) {
                     try {
                         _clone[key] = JSON.stringify(val)
                         count++;
-                    } catch  (err) {
+                    } catch (err) {
                         // Silently drop property
                     }
                 }
             });
-            if(count) properties.userProperties = _clone;
+            if (count) properties.userProperties = _clone;
         }
     }
 
@@ -183,14 +183,14 @@ module.exports = function(RED) {
      * @param {boolean} [def] An optional default to set in the destination object if prop is NOT present in the Source object
      */
     function setBufferProp(src, dst, propName, def) {
-        if(!dst) return;
+        if (!dst) return;
         if (src && dst) {
             var buf = src[propName];
             if (buf && typeof Buffer.isBuffer(buf)) {
                 dst[propName] = Buffer.from(buf);
             }
         } else {
-            if(def != undefined) dst[propName] = def;
+            if (def != undefined) dst[propName] = def;
         }
     }
 
@@ -226,12 +226,12 @@ module.exports = function(RED) {
     /**
      * Handle the payload / packet recieved in MQTT In and MQTT Sub nodes
      */
-    function subscriptionHandler(node, datatype ,topic, payload, packet) {
-        const msg = {topic:topic, payload:null, qos:packet.qos, retain:packet.retain};
+    function subscriptionHandler(node, datatype, topic, payload, packet) {
+        const msg = { topic: topic, payload: null, qos: packet.qos, retain: packet.retain };
         const v5 = (node && node.brokerConn)
             ? node.brokerConn.v5()
             : Object.prototype.hasOwnProperty.call(packet, "properties");
-        if(v5 && packet.properties) {
+        if (v5 && packet.properties) {
             setStrProp(packet.properties, msg, "responseTopic");
             setBufferProp(packet.properties, msg, "correlationData");
             setStrProp(packet.properties, msg, "contentType");
@@ -306,7 +306,7 @@ module.exports = function(RED) {
                     }
                 }
             } //else {
-                //leave as buffer
+            //leave as buffer
             //}
         }
         msg.payload = payload;
@@ -324,7 +324,7 @@ module.exports = function(RED) {
      */
     function doPublish(node, msg, done) {
         try {
-            done = typeof done == "function" ? done : function noop(){};
+            done = typeof done == "function" ? done : function noop() { };
             let v5 = node.brokerConn.options && node.brokerConn.options.protocolVersion == 5;
             const bsp = (node.brokerConn && node.brokerConn.serverProperties) || {};
 
@@ -361,8 +361,8 @@ module.exports = function(RED) {
             }
             if (hasProperty(msg, "payload")) {
                 // send the message
-                node.brokerConn.publish(msg, function(err) {
-                    if(err && err.warn) {
+                node.brokerConn.publish(msg, function (err) {
+                    if (err && err.warn) {
                         node.warn(err);
                         return;
                     }
@@ -378,16 +378,16 @@ module.exports = function(RED) {
 
     function updateStatus(node, allNodes) {
         let setStatus = setStatusDisconnected
-        if(node.connecting) {
+        if (node.connecting) {
             setStatus = setStatusConnecting
-        } else if(node.connected) {
+        } else if (node.connected) {
             setStatus = setStatusConnected
         }
         setStatus(node, allNodes)
     }
 
     function setStatusDisconnected(node, allNodes) {
-        if(allNodes) {
+        if (allNodes) {
             for (var id in node.users) {
                 if (hasProperty(node.users, id)) {
                     node.users[id].status({ fill: "red", shape: "ring", text: "node-red:common.status.disconnected" });
@@ -399,7 +399,7 @@ module.exports = function(RED) {
     }
 
     function setStatusConnecting(node, allNodes) {
-        if(allNodes) {
+        if (allNodes) {
             for (var id in node.users) {
                 if (hasProperty(node.users, id)) {
                     node.users[id].status({ fill: "yellow", shape: "ring", text: "node-red:common.status.connecting" });
@@ -411,7 +411,7 @@ module.exports = function(RED) {
     }
 
     function setStatusConnected(node, allNodes) {
-        if(allNodes) {
+        if (allNodes) {
             for (var id in node.users) {
                 if (hasProperty(node.users, id)) {
                     node.users[id].status({ fill: "green", shape: "dot", text: "node-red:common.status.connected" });
@@ -445,7 +445,7 @@ module.exports = function(RED) {
                 done()
             } else if (actionData.force) {
                 // The force flag tells us to cycle the connection.
-                node.brokerConn.disconnect(function() {
+                node.brokerConn.disconnect(function () {
                     node.brokerConn.setOptions(actionData);
                     node.brokerConn.connect(function () {
                         done();
@@ -473,7 +473,7 @@ module.exports = function(RED) {
 
     //#region  "Broker node"
     function MQTTBrokerNode(n) {
-        RED.nodes.createNode(this,n);
+        RED.nodes.createNode(this, n);
         const node = this;
         node.users = {};
         // Config node state
@@ -486,8 +486,8 @@ module.exports = function(RED) {
         node.subscriptions = {};
         node.clientListeners = []
         /** @type {mqtt.MqttClient}*/ this.client;
-        node.setOptions = function(opts, init) {
-            if(!opts || typeof opts !== "object") {
+        node.setOptions = function (opts, init) {
+            if (!opts || typeof opts !== "object") {
                 return; //nothing to change, simply return
             }
 
@@ -521,29 +521,29 @@ module.exports = function(RED) {
 
             function createLWT(topic, payload, qos, retain, v5opts, v5SubPropName) {
                 let message = undefined;
-                if(topic) {
+                if (topic) {
                     message = {
                         topic: topic,
                         payload: payload || "",
-                        qos: Number(qos||0),
-                        retain: retain=="true"|| retain===true,
+                        qos: Number(qos || 0),
+                        retain: retain == "true" || retain === true,
                     }
                     if (v5opts) {
                         let v5Properties = message;
-                        if(v5SubPropName) {
+                        if (v5SubPropName) {
                             v5Properties = message[v5SubPropName] = {};
                         }
                         //re-align local prop name to mqttjs std
-                        if(hasProperty(v5opts, "respTopic")) { v5opts.responseTopic = v5opts.respTopic; }
-                        if(hasProperty(v5opts, "correl")) { v5opts.correlationData = v5opts.correl; }
-                        if(hasProperty(v5opts, "expiry")) { v5opts.messageExpiryInterval = v5opts.expiry; }
-                        if(hasProperty(v5opts, "delay")) { v5opts.willDelayInterval = v5opts.delay; }
-                        if(hasProperty(v5opts, "userProps")) { v5opts.userProperties = v5opts.userProps; }
+                        if (hasProperty(v5opts, "respTopic")) { v5opts.responseTopic = v5opts.respTopic; }
+                        if (hasProperty(v5opts, "correl")) { v5opts.correlationData = v5opts.correl; }
+                        if (hasProperty(v5opts, "expiry")) { v5opts.messageExpiryInterval = v5opts.expiry; }
+                        if (hasProperty(v5opts, "delay")) { v5opts.willDelayInterval = v5opts.delay; }
+                        if (hasProperty(v5opts, "userProps")) { v5opts.userProperties = v5opts.userProps; }
                         //setup v5 properties
-                        if(typeof v5opts.userProperties == "string" && /^ *{/.test(v5opts.userProperties)) {
+                        if (typeof v5opts.userProperties == "string" && /^ *{/.test(v5opts.userProperties)) {
                             try {
                                 setUserProperties(JSON.parse(v5opts.userProps), v5Properties);
-                            } catch(err) {}
+                            } catch (err) { }
                         } else if (typeof v5opts.userProperties == "object") {
                             setUserProperties(v5opts.userProperties, v5Properties);
                         }
@@ -557,29 +557,29 @@ module.exports = function(RED) {
                 return message;
             }
 
-            if(init) {
-                if(hasProperty(opts, "birthTopic")) {
+            if (init) {
+                if (hasProperty(opts, "birthTopic")) {
                     node.birthMessage = createLWT(opts.birthTopic, opts.birthPayload, opts.birthQos, opts.birthRetain, opts.birthMsg, "");
                 };
-                if(hasProperty(opts, "closeTopic")) {
+                if (hasProperty(opts, "closeTopic")) {
                     node.closeMessage = createLWT(opts.closeTopic, opts.closePayload, opts.closeQos, opts.closeRetain, opts.closeMsg, "");
                 };
-                if(hasProperty(opts, "willTopic")) {
+                if (hasProperty(opts, "willTopic")) {
                     //will v5 properties must be set in the "properties" sub object
                     node.options.will = createLWT(opts.willTopic, opts.willPayload, opts.willQos, opts.willRetain, opts.willMsg, "properties");
                 };
             } else {
                 //update options
-                if(hasProperty(opts, "birth")) {
-                    if(typeof opts.birth !== "object") { opts.birth = {}; }
+                if (hasProperty(opts, "birth")) {
+                    if (typeof opts.birth !== "object") { opts.birth = {}; }
                     node.birthMessage = createLWT(opts.birth.topic, opts.birth.payload, opts.birth.qos, opts.birth.retain, opts.birth.properties, "");
                 }
-                if(hasProperty(opts, "close")) {
-                    if(typeof opts.close !== "object") { opts.close = {}; }
+                if (hasProperty(opts, "close")) {
+                    if (typeof opts.close !== "object") { opts.close = {}; }
                     node.closeMessage = createLWT(opts.close.topic, opts.close.payload, opts.close.qos, opts.close.retain, opts.close.properties, "");
                 }
-                if(hasProperty(opts, "will")) {
-                    if(typeof opts.will !== "object") { opts.will = {}; }
+                if (hasProperty(opts, "will")) {
+                    if (typeof opts.will !== "object") { opts.will = {}; }
                     //will v5 properties must be set in the "properties" sub object
                     node.options.will = createLWT(opts.will.topic, opts.will.payload, opts.will.qos, opts.will.retain, opts.will.properties, "properties");
                 }
@@ -589,11 +589,11 @@ module.exports = function(RED) {
                 node.username = node.credentials.user;
                 node.password = node.credentials.password;
             }
-            if(!init & hasProperty(opts, "username")) {
-                node.username  = opts.username;
+            if (!init & hasProperty(opts, "username")) {
+                node.username = opts.username;
             };
-            if(!init & hasProperty(opts, "password")) {
-                node.password  = opts.password;
+            if (!init & hasProperty(opts, "password")) {
+                node.password = opts.password;
             };
 
             // If the config node is missing certain options (it was probably deployed prior to an update to the node code),
@@ -620,7 +620,7 @@ module.exports = function(RED) {
                 node.brokerurl = node.url;
             } else {
                 // if the broker is ws:// or wss:// or tcp://
-                if ((typeof node.broker  === 'string') && node.broker.indexOf("://") > -1) {
+                if ((typeof node.broker === 'string') && node.broker.indexOf("://") > -1) {
                     node.brokerurl = node.broker;
                     // Only for ws or wss, check if proxy env var for additional configuration
                     if (node.brokerurl.indexOf("wss://") > -1 || node.brokerurl.indexOf("ws://") > -1) {
@@ -640,7 +640,7 @@ module.exports = function(RED) {
                     }
                 } else {
                     // construct the std mqtt:// url
-                    if (node.usetls) {
+                    if (node.usetls === true || node.usetls === "true") {
                         node.brokerurl = "mqtts://";
                     } else {
                         node.brokerurl = "mqtt://";
@@ -676,28 +676,28 @@ module.exports = function(RED) {
             node.options.keepalive = node.keepalive;
             node.options.clean = node.cleansession;
             node.options.clientId = node.clientid || 'nodered' + RED.util.generateId();
-            node.options.reconnectPeriod = RED.settings.mqttReconnectTime||5000;
+            node.options.reconnectPeriod = RED.settings.mqttReconnectTime || 5000;
             delete node.options.protocolId; //V4+ default
             delete node.options.protocolVersion; //V4 default
             delete node.options.properties;//V5 only
 
 
-            if (node.compatmode == "true" || node.compatmode === true || node.protocolVersion == 3) {
+            if (node.compatmode == "true" || node.compatmode === true || node.protocolVersion == 3 || node.protocolVersion == "3") {
                 node.options.protocolId = 'MQIsdp';//V3 compat only
                 node.options.protocolVersion = 3;
-            } else if ( node.protocolVersion == 5 ) {
+            } else if (node.protocolVersion == 5 || node.protocolVersion == "5") {
                 delete node.options.protocolId;
                 node.options.protocolVersion = 5;
                 node.options.properties = {};
                 node.options.properties.requestResponseInformation = true;
                 node.options.properties.requestProblemInformation = true;
-                if(node.userProperties && /^ *{/.test(node.userProperties)) {
+                if (node.userProperties && /^ *{/.test(node.userProperties)) {
                     try {
                         setUserProperties(JSON.parse(node.userProperties), node.options.properties);
-                    } catch(err) {}
+                    } catch (err) { }
                 }
                 if (node.sessionExpiryInterval && node.sessionExpiryInterval !== "0") {
-                    setIntProp(node,node.options.properties,"sessionExpiryInterval");
+                    setIntProp(node, node.options.properties, "sessionExpiryInterval");
                 }
             }
             // Ensure will payload, if set, is a string
@@ -715,7 +715,7 @@ module.exports = function(RED) {
                 node.options.will.payload = payload
             }
 
-            if (node.usetls && n.tls) {
+            if ((node.usetls === true || node.usetls === "true") && n.tls) {
                 var tlsNode = RED.nodes.getNode(n.tls);
                 if (tlsNode) {
                     tlsNode.addTLSOptions(node.options);
@@ -735,20 +735,33 @@ module.exports = function(RED) {
         node.setOptions(n, true);
 
         // Define functions called by MQTT in and out nodes
-        node.register = function(mqttNode) {
+        node.register = function (mqttNode) {
             node.users[mqttNode.id] = mqttNode;
             if (Object.keys(node.users).length === 1) {
-                if(node.autoConnect) {
+                if (node.autoConnect) {
+                    //update nodes status
+                    setTimeout(function () {
+                        updateStatus(node, true)
+                    }, 1)
                     node.connect();
                     //update nodes status
-                    setTimeout(function() {
+                    setTimeout(function () {
                         updateStatus(node, true)
+                    }, 1)
+                } else {
+                    // Se autoConnect è false, mostra stato disabled
+                    setTimeout(function () {
+                        for (var id in node.users) {
+                            if (hasProperty(node.users, id)) {
+                                node.users[id].status({ fill: "grey", shape: "dot", text: "disabled" });
+                            }
+                        }
                     }, 1)
                 }
             }
         };
 
-        node.deregister = function(mqttNode, done, autoDisconnect) {
+        node.deregister = function (mqttNode, done, autoDisconnect) {
             setStatusDisconnected(mqttNode, false);
             delete node.users[mqttNode.id];
             if (autoDisconnect && !node.closing && node.connected && Object.keys(node.users).length === 0) {
@@ -757,7 +770,7 @@ module.exports = function(RED) {
                 done();
             }
         };
-        node.canConnect = function() {
+        node.canConnect = function () {
             return !node.connected && !node.connecting;
         }
         node.connect = function (callback) {
@@ -767,7 +780,7 @@ module.exports = function(RED) {
                 setStatusConnecting(node, true);
                 try {
                     node.serverProperties = {};
-                    if(node.client) {
+                    if (node.client) {
                         //belt and braces to avoid left over clients
                         node.client.end(true);
                         node._clientRemoveListeners();
@@ -780,20 +793,20 @@ module.exports = function(RED) {
                         node.closing = false;
                         node.connecting = false;
                         node.connected = true;
-                        if(!callbackDone && typeof callback == "function") {
+                        if (!callbackDone && typeof callback == "function") {
                             callback();
                         }
                         callbackDone = true;
                         node.topicAliases = {};
-                        node.log(RED._("mqtt.state.connected",{broker:(node.clientid?node.clientid+"@":"")+node.brokerurl}));
-                        if(node.options.protocolVersion == 5 && connack && hasProperty(connack, "properties")) {
-                            if(typeof connack.properties == "object") {
+                        node.log(RED._("mqtt.state.connected", { broker: (node.clientid ? node.clientid + "@" : "") + node.brokerurl }));
+                        if (node.options.protocolVersion == 5 && connack && hasProperty(connack, "properties")) {
+                            if (typeof connack.properties == "object") {
                                 //clean & assign all props sent from server.
                                 setIntProp(connack.properties, node.serverProperties, "topicAliasMaximum", 0);
                                 setIntProp(connack.properties, node.serverProperties, "receiveMaximum", 0);
                                 setIntProp(connack.properties, node.serverProperties, "sessionExpiryInterval", 0, 0xFFFFFFFF);
                                 setIntProp(connack.properties, node.serverProperties, "maximumQoS", 0, 2);
-                                setBoolProp(connack.properties, node.serverProperties, "retainAvailable",true);
+                                setBoolProp(connack.properties, node.serverProperties, "retainAvailable", true);
                                 setBoolProp(connack.properties, node.serverProperties, "wildcardSubscriptionAvailable", true);
                                 setBoolProp(connack.properties, node.serverProperties, "subscriptionIdentifiersAvailable", true);
                                 setBoolProp(connack.properties, node.serverProperties, "sharedSubscriptionAvailable");
@@ -828,16 +841,16 @@ module.exports = function(RED) {
                             }, 1);
                         }
                     });
-                    node._clientOn("reconnect", function() {
+                    node._clientOn("reconnect", function () {
                         setStatusConnecting(node, true);
                     });
                     //Broker Disconnect - V5 event
-                    node._clientOn("disconnect", function(packet) {
+                    node._clientOn("disconnect", function (packet) {
                         //Emitted after receiving disconnect packet from broker. MQTT 5.0 feature.
                         const rc = (packet && packet.properties && packet.reasonCode) || packet.reasonCode;
                         const rs = packet && packet.properties && packet.properties.reasonString || "";
                         const details = {
-                            broker: (node.clientid?node.clientid+"@":"")+node.brokerurl,
+                            broker: (node.clientid ? node.clientid + "@" : "") + node.brokerurl,
                             reasonCode: rc,
                             reasonString: rs
                         }
@@ -849,10 +862,10 @@ module.exports = function(RED) {
                     node._clientOn('close', function () {
                         if (node.connected) {
                             node.connected = false;
-                            node.log(RED._("mqtt.state.disconnected",{broker:(node.clientid?node.clientid+"@":"")+node.brokerurl}));
+                            node.log(RED._("mqtt.state.disconnected", { broker: (node.clientid ? node.clientid + "@" : "") + node.brokerurl }));
                             setStatusDisconnected(node, true);
                         } else if (node.connecting) {
-                            node.log(RED._("mqtt.state.connect-failed",{broker:(node.clientid?node.clientid+"@":"")+node.brokerurl}));
+                            node.log(RED._("mqtt.state.connect-failed", { broker: (node.clientid ? node.clientid + "@" : "") + node.brokerurl }));
                         }
                     });
 
@@ -860,7 +873,7 @@ module.exports = function(RED) {
                     // The client's own reconnect logic will take care of errors
                     node._clientOn('error', function (error) {
                     });
-                }catch(err) {
+                } catch (err) {
                     console.log(err);
                 }
             }
@@ -868,16 +881,16 @@ module.exports = function(RED) {
 
         node.disconnect = function (callback) {
             const _callback = function () {
-                if(node.connected || node.connecting) {
+                if (node.connected || node.connecting) {
                     setStatusDisconnected(node, true);
                 }
-                if(node.client) { node._clientRemoveListeners(); }
+                if (node.client) { node._clientRemoveListeners(); }
                 node.connecting = false;
                 node.connected = false;
                 callback && typeof callback == "function" && callback();
             };
-            if(!node.client) { return _callback(); }
-            if(node.closing) { return _callback(); }
+            if (!node.client) { return _callback(); }
+            if (node.closing) { return _callback(); }
 
             /**
              * Call end and wait for the client to end (or timeout)
@@ -886,7 +899,7 @@ module.exports = function(RED) {
              * @returns
              */
             let waitEnd = (client, ms) => {
-                return new Promise( (resolve, reject) => {
+                return new Promise((resolve, reject) => {
                     node.closing = true;
                     if (!client) {
                         resolve();
@@ -903,7 +916,7 @@ module.exports = function(RED) {
                     }
                 });
             };
-            if(node.connected && node.closeMessage) {
+            if (node.connected && node.closeMessage) {
                 node.publish(node.closeMessage, function (err) {
                     waitEnd(node.client, 2000).then(() => {
                         _callback();
@@ -1094,14 +1107,14 @@ module.exports = function(RED) {
         }
 
         node.unsubscribe = function (topic, ref, removeClientSubscription) {
-            ref = ref||0;
+            ref = ref || 0;
             const unsub = removeClientSubscription || node.autoUnsubscribe !== false
             const sub = node.subscriptions[topic];
             let brokerId = node.id
             if (sub) {
                 if (sub[ref]) {
                     brokerId = sub[ref].brokerId || brokerId
-                    if(node.client && sub[ref].handler) {
+                    if (node.client && sub[ref].handler) {
                         node._clientRemoveListeners('message', sub[ref].handler);
                         sub[ref].handler = null
                     }
@@ -1141,7 +1154,7 @@ module.exports = function(RED) {
         };
         node.topicAliases = {};
 
-        node.publish = function (msg,done) {
+        node.publish = function (msg, done) {
             if (node.connected) {
                 if (msg.payload === null || msg.payload === undefined) {
                     msg.payload = "";
@@ -1158,7 +1171,7 @@ module.exports = function(RED) {
                 };
                 let topicOK = hasProperty(msg, "topic") && (typeof msg.topic === "string") && (isValidPublishTopic(msg.topic));
                 //https://github.com/mqttjs/MQTT.js/blob/master/README.md#mqttclientpublishtopic-message-options-callback
-                if(node.options.protocolVersion == 5) {
+                if (node.options.protocolVersion == 5) {
                     const bsp = node.serverProperties || {};
                     if (msg.userProperties && typeof msg.userProperties !== "object") {
                         delete msg.userProperties;
@@ -1201,7 +1214,7 @@ module.exports = function(RED) {
                     node.client.publish(msg.topic, msg.payload, options, function (err) {
                         if (done) {
                             done(err)
-                        } else if(err) {
+                        } else if (err) {
                             node.error(err, msg)
                         }
                     })
@@ -1217,8 +1230,8 @@ module.exports = function(RED) {
             }
         };
 
-        node.on('close', function(done) {
-            node.disconnect(function() {
+        node.on('close', function (done) {
+            node.disconnect(function () {
                 done();
             });
         });
@@ -1230,8 +1243,8 @@ module.exports = function(RED) {
          * @param {string} event The name of the event
          * @param {function} handler The handler for this event
          */
-         node._clientOn = function(event, handler) {
-            node.clientListeners.push({event, handler})
+        node._clientOn = function (event, handler) {
+            node.clientListeners.push({ event, handler })
             node.client.on(event, handler)
         }
 
@@ -1244,7 +1257,7 @@ module.exports = function(RED) {
          * @param {string} [event] The name of the event (optional)
          * @param {function} [handler] The handler for this event (optional)
          */
-         node._clientRemoveListeners = function(event, handler) {
+        node._clientRemoveListeners = function (event, handler) {
             node.clientListeners = node.clientListeners.filter((l) => {
                 if (event && event !== l.event) { return true; }
                 if (handler && handler !== l.handler) { return true; }
@@ -1255,17 +1268,17 @@ module.exports = function(RED) {
 
     }
 
-    RED.nodes.registerType("mqtt-gem-broker",MQTTBrokerNode,{
+    RED.nodes.registerType("mqtt-gem-broker", MQTTBrokerNode, {
         credentials: {
-            user: {type:"text"},
-            password: {type: "password"}
+            user: { type: "text" },
+            password: { type: "password" }
         }
     });
     //#endregion  "Broker node"
 
     //#region  "MQTTIn node"
     function MQTTInNode(n) {
-        RED.nodes.createNode(this,n);
+        RED.nodes.createNode(this, n);
         /**@type {MQTTInNode}*/const node = this;
         /**@type {string}*/node.broker = n.broker;
         /**@type {MQTTBrokerNode}*/node.brokerConn = RED.nodes.getNode(node.broker);
@@ -1303,20 +1316,25 @@ module.exports = function(RED) {
                 node.brokerConn.register(node);
                 if (!node.isDynamic) {
                     let options = { qos: node.qos };
-                    if(v5) {
+                    if (v5) {
                         setIntProp(node, options, "rh", 0, 2, 0);
-                        if(node.nl === "true" || node.nl === true) options.nl = true;
-                        else if(node.nl === "false" || node.nl === false) options.nl = false;
-                        if(node.rap === "true" || node.rap === true) options.rap = true;
-                        else if(node.rap === "false" || node.rap === false) options.rap = false;
+                        if (node.nl === "true" || node.nl === true) options.nl = true;
+                        else if (node.nl === "false" || node.nl === false) options.nl = false;
+                        if (node.rap === "true" || node.rap === true) options.rap = true;
+                        else if (node.rap === "false" || node.rap === false) options.rap = false;
                     }
                     node._topic = node.topic; // store the original topic incase node is later changed
-                    node.brokerConn.subscribe(node.topic,options,function(topic, payload, packet) {
+                    // Se autoConnect è false, non sottoscrivere e mostra stato disabled
+                    if (node.brokerConn.autoConnect === false || node.brokerConn.autoConnect === "false") {
+                        node.status({ fill: "grey", shape: "dot", text: "disabled" });
+                        return;
+                    }
+                    node.brokerConn.subscribe(node.topic, options, function (topic, payload, packet) {
                         subscriptionHandler(node, node.datatype, topic, payload, packet);
-                    },node.id);
+                    }, node.id);
                 }
                 if (node.brokerConn.connected) {
-                    node.status({fill:"green",shape:"dot",text:"node-red:common.status.connected"});
+                    node.status({ fill: "green", shape: "dot", text: "node-red:common.status.connected" });
                 }
             }
             else {
@@ -1339,7 +1357,7 @@ module.exports = function(RED) {
                     const subscriptions = [];
                     let actionData;
                     //coerce msg.topic into an array of strings or objects (for later iteration)
-                    if(action === Actions.UNSUBSCRIBE && msg.topic === true) {
+                    if (action === Actions.UNSUBSCRIBE && msg.topic === true) {
                         actionData = Object.values(node.dynamicSubs);
                     } else if (Array.isArray(msg.topic)) {
                         actionData = msg.topic;
@@ -1416,9 +1434,9 @@ module.exports = function(RED) {
                 }
             });
 
-            node.on('close', function(removed, done) {
+            node.on('close', function (removed, done) {
                 if (node.brokerConn) {
-                    if(node.isDynamic) {
+                    if (node.isDynamic) {
                         Object.keys(node.dynamicSubs).forEach(function (topic) {
                             node.brokerConn.unsubscribe(topic, node.id, removed);
                         });
@@ -1436,12 +1454,12 @@ module.exports = function(RED) {
             node.error(RED._("mqtt.errors.missing-config"));
         }
     }
-    RED.nodes.registerType("mqtt-gem in",MQTTInNode);
+    RED.nodes.registerType("mqtt-gem in", MQTTInNode);
     //#endregion  "MQTTIn node"
 
     //#region "MQTTOut node"
     function MQTTOutNode(n) {
-        RED.nodes.createNode(this,n);
+        RED.nodes.createNode(this, n);
         const node = this;
         node.topic = n.topic;
         node.qos = n.qos || null;
@@ -1456,7 +1474,7 @@ module.exports = function(RED) {
                 //setup this.userProperties
                 setUserProperties(JSON.parse(n.userProps), node);//https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901116
             }
-        } catch(err) {}
+        } catch (err) { }
         // node.topicAlias = n.topicAlias; //https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901113
         // node.payloadFormatIndicator = n.payloadFormatIndicator; //https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901111
         // node.subscriptionIdentifier = n.subscriptionIdentifier;//https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901117
@@ -1470,7 +1488,12 @@ module.exports = function(RED) {
 
         if (node.brokerConn) {
             setStatusDisconnected(node);
-            node.on("input",function(msg,send,done) {
+            node.on("input", function (msg, send, done) {
+                // Se autoConnect è false, non fare nulla
+                if (node.brokerConn.autoConnect === false || node.brokerConn.autoConnect === "false") {
+                    done();
+                    return;
+                }
                 if (msg.action) {
                     if (msg.action === Actions.CONNECT) {
                         handleConnectAction(node, msg, done)
@@ -1486,10 +1509,10 @@ module.exports = function(RED) {
 
             });
             if (node.brokerConn.connected) {
-                node.status({fill:"green",shape:"dot",text:"node-red:common.status.connected"});
+                node.status({ fill: "green", shape: "dot", text: "node-red:common.status.connected" });
             }
             node.brokerConn.register(node);
-            node.on('close', function(removed, done) {
+            node.on('close', function (removed, done) {
                 if (node.brokerConn) {
                     node.brokerConn.deregister(node, done, removed)
                     node.brokerConn = null;
@@ -1501,6 +1524,6 @@ module.exports = function(RED) {
             node.error(RED._("mqtt.errors.missing-config"));
         }
     }
-    RED.nodes.registerType("mqtt-gem out",MQTTOutNode);
+    RED.nodes.registerType("mqtt-gem out", MQTTOutNode);
     //#endregion "MQTTOut node"
 };
