@@ -1,0 +1,14 @@
+node_modules/
+.vscode/
+*.log
+*.bak
+*.pem
+
+#lucat
+.lh/
+*.backup
+built/
+/node-red-test/*
+# Ma non ignorare i file per l'applicativo node-red
+!/node-red-test/.node-red/
+!/node-red-test/.node-red/**

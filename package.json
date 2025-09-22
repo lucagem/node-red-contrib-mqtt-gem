@@ -1,0 +1,38 @@
+{
+  "name": "node-red-contrib-mqtt-gem",
+  "version": "1.0.0",
+  "description": "MQTT nodes with environment variables support for dynamic enable and parameters",
+  "main": "mqtt-gem.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucagem/node-red-contrib-mqtt-gem.git"
+  },
+  "keywords": [
+    "node-red",
+    "mqtt",
+    "environment",
+    "variables",
+    "dynamic",
+    "configuration"
+  ],
+  "author": "Luca Tralli",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lucagem/node-red-contrib-mqtt-gem/issues"
+  },
+  "homepage": "https://github.com/lucagem/node-red-contrib-mqtt-gem#readme",
+  "node-red": {
+    "nodes": {
+      "mqtt-gem": "mqtt-gem.js"
+    }
+  },
+  "dependencies": {
+    "mqtt": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
