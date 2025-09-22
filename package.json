@@ -4,7 +4,8 @@
   "description": "MQTT nodes with environment variables support for dynamic enable and parameters",
   "main": "mqtt-gem.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "node-red": "node-red -u ./node-red-test"
   },
   "repository": {
     "type": "git",
@@ -34,5 +35,8 @@
   },
   "engines": {
     "node": ">=14.0.0"
+  },
+  "devDependencies": {
+    "node-red": "^4.1.0"
   }
 }

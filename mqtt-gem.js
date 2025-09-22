@@ -747,10 +747,6 @@ module.exports = function (RED) {
                     setTimeout(function () {
                         updateStatus(node, true)
                     }, 1)
-                    //update nodes status
-                    setTimeout(function () {
-                        updateStatus(node, true)
-                    }, 1)
                 } else {
                     // Se autoConnect è false, mostra stato disabled
                     setTimeout(function () {
