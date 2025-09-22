@@ -19,3 +19,7 @@ This is an enhanced version of the standard Node-RED MQTT nodes that allows:
 Install via Node-RED Palette Manager or run:
 ```bash
 npm install node-red-contrib-mqtt-gem
+```
+
+## Original files
+https://github.com/node-red/node-red/blob/master/packages/node_modules/%40node-red/nodes/core/network/
