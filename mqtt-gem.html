@@ -73,7 +73,7 @@
 
 </style>
 
-<script type="text/html" data-template-name="mqtt in">
+<script type="text/html" data-template-name="mqtt-gem in">
     <div class="form-row">
         <label for="node-input-broker"><i class="fa fa-globe"></i> <span data-i18n="mqtt.label.broker"></span></label>
         <input type="text" id="node-input-broker">
@@ -144,7 +144,7 @@
     </div>
 </script>
 
-<script type="text/html" data-template-name="mqtt out">
+<script type="text/html" data-template-name="mqtt-gem out">
     <div class="form-row">
         <label for="node-input-broker"><i class="fa fa-globe"></i> <span data-i18n="mqtt.label.broker"></span></label>
         <input type="text" id="node-input-broker">
@@ -199,7 +199,7 @@
     <div class="form-tips"><span data-i18n="mqtt.tip"></span></div>
 </script>
 
-<script type="text/html" data-template-name="mqtt-broker">
+<script type="text/html" data-template-name="mqtt-gem-broker">
     <div class="form-row">
         <label for="node-config-input-name"><i class="fa fa-tag"></i> <span data-i18n="common.label.name"></span></label>
         <input type="text" id="node-config-input-name" data-i18n="[placeholder]common.label.name">
@@ -487,7 +487,7 @@
         })
     }
 
-    RED.nodes.registerType('mqtt-broker',{
+    RED.nodes.registerType('mqtt-gem-broker',{
         category: 'config',
         defaults: {
             name: {value:""},
@@ -819,7 +819,7 @@
         }
     });
 
-    RED.nodes.registerType('mqtt in',{
+    RED.nodes.registerType('mqtt-gem in',{
         category: 'network',
         defaults: {
             name: {value:""},
@@ -916,7 +916,7 @@
         }
     });
 
-    RED.nodes.registerType('mqtt out',{
+    RED.nodes.registerType('mqtt-gem out',{
         category: 'network',
         defaults: {
             name: {value:""},

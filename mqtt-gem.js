@@ -1255,7 +1255,7 @@ module.exports = function(RED) {
 
     }
 
-    RED.nodes.registerType("mqtt-broker",MQTTBrokerNode,{
+    RED.nodes.registerType("mqtt-gem-broker",MQTTBrokerNode,{
         credentials: {
             user: {type:"text"},
             password: {type: "password"}
@@ -1436,7 +1436,7 @@ module.exports = function(RED) {
             node.error(RED._("mqtt.errors.missing-config"));
         }
     }
-    RED.nodes.registerType("mqtt in",MQTTInNode);
+    RED.nodes.registerType("mqtt-gem in",MQTTInNode);
     //#endregion  "MQTTIn node"
 
     //#region "MQTTOut node"
@@ -1501,6 +1501,6 @@ module.exports = function(RED) {
             node.error(RED._("mqtt.errors.missing-config"));
         }
     }
-    RED.nodes.registerType("mqtt out",MQTTOutNode);
+    RED.nodes.registerType("mqtt-gem out",MQTTOutNode);
     //#endregion "MQTTOut node"
 };
