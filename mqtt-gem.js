@@ -656,7 +656,8 @@ module.exports = function (RED) {
                         if (!node.port) {
                             node.brokerurl = node.brokerurl + "1883";
                         } else {
-                            node.brokerurl = node.brokerurl + node.port;
+                            // Assicurati che port sia una stringa valida
+                            node.brokerurl = node.brokerurl + node.port.toString();
                         }
                     } else {
                         node.brokerurl = node.brokerurl + "localhost:1883";
@@ -733,17 +734,19 @@ module.exports = function (RED) {
         node.subscriptionIdentifiersAvailable = () => node.v5() && node.serverProperties && node.serverProperties.subscriptionIdentifiersAvailable
         n.autoConnect = n.autoConnect === "false" || n.autoConnect === false ? false : true;
         node.setOptions(n, true);
+        // Assicurati che autoConnect sia un booleano
+        node.autoConnect = node.autoConnect === "false" || node.autoConnect === false ? false : true;
 
         // Define functions called by MQTT in and out nodes
         node.register = function (mqttNode) {
             node.users[mqttNode.id] = mqttNode;
             if (Object.keys(node.users).length === 1) {
                 if (node.autoConnect) {
+                    node.connect();
                     //update nodes status
                     setTimeout(function () {
                         updateStatus(node, true)
                     }, 1)
-                    node.connect();
                     //update nodes status
                     setTimeout(function () {
                         updateStatus(node, true)
@@ -1325,7 +1328,7 @@ module.exports = function (RED) {
                     }
                     node._topic = node.topic; // store the original topic incase node is later changed
                     // Se autoConnect è false, non sottoscrivere e mostra stato disabled
-                    if (node.brokerConn.autoConnect === false || node.brokerConn.autoConnect === "false") {
+                    if (node.brokerConn.autoConnect === false) {
                         node.status({ fill: "grey", shape: "dot", text: "disabled" });
                         return;
                     }
@@ -1490,7 +1493,7 @@ module.exports = function (RED) {
             setStatusDisconnected(node);
             node.on("input", function (msg, send, done) {
                 // Se autoConnect è false, non fare nulla
-                if (node.brokerConn.autoConnect === false || node.brokerConn.autoConnect === "false") {
+                if (node.brokerConn.autoConnect === false) {
                     done();
                     return;
                 }
