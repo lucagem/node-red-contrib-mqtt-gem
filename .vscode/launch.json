@@ -15,7 +15,7 @@
                 "NODE_ENV": "development",
                 "MQTT_PORT": "1883",
                 "MQTT_HOST": "test.mosquitto.org",
-                "MQTT_PROTOCOL": "3",
+                "MQTT_PROTOCOL": "5",
                 "MQTT_AUTOCONNECT": "true",
                 "MQTT_USETLS": "false"
             },

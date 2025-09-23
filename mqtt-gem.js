@@ -44,20 +44,20 @@ module.exports = function (RED) {
         "image/tiff": "buffer",
         "image/png": "buffer",
     }
-    // Funzione helper per ottenere il protocolVersion effettivo
+    // Helper function to get the effective protocolVersion
     function getEffectiveProtocolVersion(node) {
-        // Se c'è un valore custom valido, usalo
+        // If there is a valid custom value, use it
         if (node.protocolVersionCustom && node.protocolVersionCustom.trim() !== "") {
             var customValue = node.protocolVersionCustom.trim();
-            // Verifica se è un numero valido (3, 4, 5) o stringa valida
+            // Check if it is a valid number (3, 4, 5) or valid string
             if (customValue === '3' || customValue === '4' || customValue === '5' ||
                 customValue === 3 || customValue === 4 || customValue === 5) {
                 return parseInt(customValue);
             }
-            // Se non è un numero standard, restituiscilo come stringa (potrebbe essere una variabile d'ambiente)
+            // If it is not a standard number, return it as a string (it could be an environment variable)
             return customValue;
         }
-        // Altrimenti usa il valore del select
+        // Otherwise use the value from the select
         return node.protocolVersion || 4;
     }
 
@@ -769,7 +769,7 @@ module.exports = function (RED) {
                         updateStatus(node, true)
                     }, 1)
                 } else {
-                    // Se autoConnect è false, mostra stato disabled
+                    // If autoConnect is false, show disabled status
                     setTimeout(function () {
                         for (var id in node.users) {
                             if (hasProperty(node.users, id)) {
@@ -805,7 +805,7 @@ module.exports = function (RED) {
                         node.client.end(true);
                         node._clientRemoveListeners();
                     }
-                    // LOG PARAMETRI DINAMICI - INIZIO
+                    // LOG DYNAMIC PARAMETERS - START
                     var effectiveProtocolVersion = getEffectiveProtocolVersion(node);
                     console.log("=== MQTT-GEM CONNECTION DEBUG ===");
                     console.log("Broker Name: " + (node.name || "unnamed"));
@@ -821,10 +821,10 @@ module.exports = function (RED) {
                     console.log("Keep Alive: " + node.options.keepalive);
                     console.log("Final Options Protocol Version: " + node.options.protocolVersion);
                     console.log("=== END CONNECTION DEBUG ===");
-                    // LOG PARAMETRI DINAMICI - FINE                    
+                    // LOG DYNAMIC PARAMETERS - END
                     node.client = mqtt.connect(node.brokerurl, node.options);
                     node.client.setMaxListeners(0);
-                    let callbackDone = false; //prevent re-connects causing node._clientOn('connect' firing callback multiple times
+                    let callbackDone = false; //prevent re-connects causing node._clientOn('connect') to fire callback multiple times
                     // Register successful connect or reconnect handler
                     node._clientOn('connect', function (connack) {
                         node.closing = false;
