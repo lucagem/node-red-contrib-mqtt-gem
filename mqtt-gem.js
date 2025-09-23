@@ -518,6 +518,7 @@ module.exports = function (RED) {
             setIfHasProperty(opts, node, "verifyservercert", init);
             setIfHasProperty(opts, node, "compatmode", init);
             setIfHasProperty(opts, node, "protocolVersion", init);
+            setIfHasProperty(opts, node, "protocolVersionCustom", init); 
             setIfHasProperty(opts, node, "keepalive", init);
             setIfHasProperty(opts, node, "cleansession", init);
             setIfHasProperty(opts, node, "autoUnsubscribe", init);
