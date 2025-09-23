@@ -16,7 +16,7 @@
                 "MQTT_PORT": "1883",
                 "MQTT_HOST": "localhost",
                 "MQTT_PROTOCOL": "3",
-                "MQTT_AUTOCONNECT": "true",
+                "MQTT_AUTOCONNECT": "false",
                 "MQTT_USETLS": "false"
             },
             "skipFiles": [

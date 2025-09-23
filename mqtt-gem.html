@@ -780,9 +780,14 @@
 
             },
             oneditsave: function () {
+                // Salva il valore RAW dal campo, senza lasciare che Node-RED lo risolva
+                var customField = document.getElementById("node-config-input-protocolVersion-custom");
+                if (customField) {
+                    // Ottieni il valore raw senza risoluzione automatica
+                    this.protocolVersionCustom = customField.value;
+                }
                 // Salva sia il valore del select che quello del campo custom
                 this.protocolVersion = $("#node-config-input-protocolVersion-select").val();
-                this.protocolVersionCustom = $("#node-config-input-protocolVersion-custom").val();
                 //
                 var usetlsVal = $("#node-config-input-usetls").val();
                 if (usetlsVal !== "true" && usetlsVal !== true) {
@@ -1020,6 +1025,7 @@
                     default: getDefaultContentType(this.contentType),
                     types: contentTypeOpts
                 })
+                $("#node-config-input-protocolVersion-custom").val(this.protocolVersionCustom || "");
             },
             oneditsave: function () {
 
