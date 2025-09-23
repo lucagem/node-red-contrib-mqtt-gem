@@ -435,18 +435,9 @@
 </script>
 <script type="text/javascript">
     (function () {
-        // Protocol Version select logic
-        $(document).on('change', '#node-config-input-protocolVersion-select', function() {
-            var val = $(this).val();
-            if(val === 'custom') {
-                $('#node-config-input-protocolVersion-custom').show();
-            } else {
-                $('#node-config-input-protocolVersion-custom').hide();
-            }
-        });
         // On edit prepare, set initial value
         var initialProtocol = typeof this.protocolVersion !== 'undefined' ? this.protocolVersion : '4';
-        if(initialProtocol === '3' || initialProtocol === '4' || initialProtocol === '5') {
+        if (initialProtocol === '3' || initialProtocol === '4' || initialProtocol === '5') {
             $('#node-config-input-protocolVersion-select').val(initialProtocol);
             $('#node-config-input-protocolVersion-custom').hide();
         } else {
@@ -458,14 +449,14 @@
         var origOnEditSave = RED.nodes.registerType && RED.nodes.registerType['mqtt-gem-broker'] && RED.nodes.registerType['mqtt-gem-broker'].oneditsave;
         RED.nodes.registerType('mqtt-gem-broker', {
             // ...existing config...
-            oneditsave: function() {
+            oneditsave: function () {
                 var selected = $('#node-config-input-protocolVersion-select').val();
-                if(selected === 'custom') {
+                if (selected === 'custom') {
                     this.protocolVersion = $('#node-config-input-protocolVersion-custom').val();
                 } else {
                     this.protocolVersion = selected;
                 }
-                if(typeof origOnEditSave === 'function') origOnEditSave.call(this);
+                if (typeof origOnEditSave === 'function') origOnEditSave.call(this);
             }
         });
 
@@ -707,10 +698,20 @@
                     delete this.compatmode;
                     this.protocolVersion = 4;
                 }
+                // Nella funzione oneditprepare, trova e sostituisci la gestione del protocolVersion
                 if (typeof this.protocolVersion === 'undefined') {
                     this.protocolVersion = 4;
+                    this.protocolVersionCustom = "";
+                } else {
+                    // Se protocolVersion non è uno dei valori standard, lo mettiamo nel campo custom
+                    if (this.protocolVersion !== '3' && this.protocolVersion !== '4' && this.protocolVersion !== '5' &&
+                        this.protocolVersion !== 3 && this.protocolVersion !== 4 && this.protocolVersion !== 5) {
+                        this.protocolVersionCustom = this.protocolVersion;
+                        this.protocolVersion = 4; // default per il select
+                    }
                 }
-                $("#node-config-input-cleansession").on("change", function () {
+                $("#node-config-input-protocolVersion-select").val(this.protocolVersion || "4");
+                $("#node-config-input-protocolVersion-custom").val(this.protocolVersionCustom || ""); $("#node-config-input-cleansession").on("change", function () {
                     const useCleanSession = $("#node-config-input-cleansession").is(':checked');
                     if (useCleanSession) {
                         $("div.form-row.mqtt-persistence").hide();
