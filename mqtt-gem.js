@@ -44,6 +44,23 @@ module.exports = function (RED) {
         "image/tiff": "buffer",
         "image/png": "buffer",
     }
+    // Funzione helper per ottenere il protocolVersion effettivo
+    function getEffectiveProtocolVersion(node) {
+        // Se c'è un valore custom valido, usalo
+        if (node.protocolVersionCustom && node.protocolVersionCustom.trim() !== "") {
+            var customValue = node.protocolVersionCustom.trim();
+            // Verifica se è un numero valido (3, 4, 5) o stringa valida
+            if (customValue === '3' || customValue === '4' || customValue === '5' ||
+                customValue === 3 || customValue === 4 || customValue === 5) {
+                return parseInt(customValue);
+            }
+            // Se non è un numero standard, restituiscilo come stringa (potrebbe essere una variabile d'ambiente)
+            return customValue;
+        }
+        // Altrimenti usa il valore del select
+        return node.protocolVersion || 4;
+    }
+
     //#region "Supporting functions"
     function matchTopic(ts, t) {
         if (ts == "#") {
@@ -682,11 +699,11 @@ module.exports = function (RED) {
             delete node.options.protocolVersion; //V4 default
             delete node.options.properties;//V5 only
 
-
-            if (node.compatmode == "true" || node.compatmode === true || node.protocolVersion == 3 || node.protocolVersion == "3") {
+            var effectiveProtocolVersion = getEffectiveProtocolVersion(node);
+            if (node.compatmode == "true" || node.compatmode === true || effectiveProtocolVersion == 3 || effectiveProtocolVersion == "3") {
                 node.options.protocolId = 'MQIsdp';//V3 compat only
                 node.options.protocolVersion = 3;
-            } else if (node.protocolVersion == 5 || node.protocolVersion == "5") {
+            } else if (effectiveProtocolVersion == 5 || effectiveProtocolVersion == "5") {
                 delete node.options.protocolId;
                 node.options.protocolVersion = 5;
                 node.options.properties = {};

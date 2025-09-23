@@ -435,31 +435,6 @@
 </script>
 <script type="text/javascript">
     (function () {
-        // On edit prepare, set initial value
-        var initialProtocol = typeof this.protocolVersion !== 'undefined' ? this.protocolVersion : '4';
-        if (initialProtocol === '3' || initialProtocol === '4' || initialProtocol === '5') {
-            $('#node-config-input-protocolVersion-select').val(initialProtocol);
-            $('#node-config-input-protocolVersion-custom').hide();
-        } else {
-            $('#node-config-input-protocolVersion-select').val('custom');
-            $('#node-config-input-protocolVersion-custom').val(initialProtocol).show();
-        }
-
-        // On save, set protocolVersion to select value or custom value
-        var origOnEditSave = RED.nodes.registerType && RED.nodes.registerType['mqtt-gem-broker'] && RED.nodes.registerType['mqtt-gem-broker'].oneditsave;
-        RED.nodes.registerType('mqtt-gem-broker', {
-            // ...existing config...
-            oneditsave: function () {
-                var selected = $('#node-config-input-protocolVersion-select').val();
-                if (selected === 'custom') {
-                    this.protocolVersion = $('#node-config-input-protocolVersion-custom').val();
-                } else {
-                    this.protocolVersion = selected;
-                }
-                if (typeof origOnEditSave === 'function') origOnEditSave.call(this);
-            }
-        });
-
         var typedInputNoneOpt = {
             value: 'none',
             label: RED._("node-red:mqtt.label.none"),
@@ -805,6 +780,10 @@
 
             },
             oneditsave: function () {
+                // Salva sia il valore del select che quello del campo custom
+                this.protocolVersion = $("#node-config-input-protocolVersion-select").val();
+                this.protocolVersionCustom = $("#node-config-input-protocolVersion-custom").val();
+                //
                 var usetlsVal = $("#node-config-input-usetls").val();
                 if (usetlsVal !== "true" && usetlsVal !== true) {
                     $("#node-config-input-tls").val("");
