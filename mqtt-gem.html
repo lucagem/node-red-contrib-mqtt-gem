@@ -860,7 +860,7 @@
                 },
                 qos: { value: "2" },
                 datatype: { value: "auto-detect", required: true },
-                broker: { type: "mqtt-broker", required: true, label: RED._("node-red:mqtt.label.broker") },
+                broker: { type: "mqtt-gem-broker", required: true, label: RED._("node-red:mqtt.label.broker") },
                 // subscriptionIdentifier: {value:0},
                 nl: { value: false },
                 rap: { value: true },
@@ -950,7 +950,7 @@
                 correl: { value: '' },
                 expiry: { value: '' },
                 broker: {
-                    type: "mqtt-broker", required: true,
+                    type: "mqtt-gem-broker", required: true,
                     label: RED._("node-red:mqtt.label.broker")
                 }
             },

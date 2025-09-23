@@ -426,26 +426,5 @@
                 "file": "C:\\Users\\luca.tralli\\_gemCode\\Nodered Librerie modificate\\mkdir node-red-contrib-mqtt-gem\\node_modules\\@node-red\\nodes\\core\\storage\\23-watch.js"
             }
         }
-    },
-    "node-red-contrib-mqtt-gem": {
-        "name": "node-red-contrib-mqtt-gem",
-        "version": "1.0.0",
-        "local": true,
-        "user": false,
-        "nodes": {
-            "mqtt-gem": {
-                "name": "mqtt-gem",
-                "types": [
-                    "mqtt-gem in",
-                    "mqtt-gem out",
-                    "mqtt-gem-broker"
-                ],
-                "enabled": true,
-                "local": true,
-                "user": false,
-                "module": "node-red-contrib-mqtt-gem",
-                "file": "C:\\Users\\luca.tralli\\_gemCode\\Nodered Librerie modificate\\mkdir node-red-contrib-mqtt-gem\\.node-red-dev\\node_modules\\node-red-contrib-mqtt-gem\\mqtt-gem.js"
-            }
-        }
     }
 }
