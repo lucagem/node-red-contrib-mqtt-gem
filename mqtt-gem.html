@@ -243,7 +243,11 @@
             </div>
             <div class="form-row">
                 <label for="node-config-input-protocolVersion-custom"><i class="fa fa-code"></i> <span data-i18n="mqtt.label.dynamicProtocol"></span></label>
-                <input type="text" id="node-config-input-protocolVersion-custom" placeholder="Empty (not used) or env.var like ${MQTT_PROTOCOL}" style="width:70%;" />
+                <input type="text" 
+                    id="node-config-input-protocolVersion-custom" 
+                    name="protocolVersionCustom"
+                    placeholder="Empty (not used) or env.var like ${MQTT_PROTOCOL}" 
+                    style="width:70%;" />
             </div>
             <div class="form-row">
                 <label for="node-config-input-keepalive"><i class="fa fa-heartbeat"></i> <span data-i18n="mqtt.label.keepalive"></span></label>
@@ -686,7 +690,9 @@
                     }
                 }
                 $("#node-config-input-protocolVersion-select").val(this.protocolVersion || "4");
-                $("#node-config-input-protocolVersion-custom").val(this.protocolVersionCustom || ""); $("#node-config-input-cleansession").on("change", function () {
+                $("#node-config-input-protocolVersion-custom").val(this.protocolVersionCustom || ""); 
+                //
+                $("#node-config-input-cleansession").on("change", function () {
                     const useCleanSession = $("#node-config-input-cleansession").is(':checked');
                     if (useCleanSession) {
                         $("div.form-row.mqtt-persistence").hide();
@@ -780,12 +786,6 @@
 
             },
             oneditsave: function () {
-                // Save the RAW value from the field, without letting Node-RED resolve it
-                var customField = document.getElementById("node-config-input-protocolVersion-custom");
-                if (customField) {
-                    // Get the raw value without automatic resolution
-                    this.protocolVersionCustom = customField.value;
-                }
                 // Save both the select value and the custom field value
                 this.protocolVersion = $("#node-config-input-protocolVersion-select").val();
                 //
