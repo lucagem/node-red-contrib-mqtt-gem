@@ -13,6 +13,7 @@
       "broker": "Server",
       "action": "Action",
       "qos": "QoS",
+      "dynamicProtocol": "Dynamic Protocol",
       "flags": "Flags",
       "rh": "Retain Handling",
       "output": "Output Type",

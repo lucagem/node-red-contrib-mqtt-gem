@@ -233,19 +233,18 @@
                 <input type="text" id="node-config-input-usetls" placeholder="true/false or ${ENV_VAR}" style="width: 70%">
                 <span id="node-config-row-tls" class="hide" style="margin-left: 10px;"><input style="width: 200px;" type="text" id="node-config-input-tls"></span>
             </div>
+            <!-- Modifica questa sezione nella div "mqtt-broker-tab-connection" -->
             <div class="form-row">
                 <label for="node-config-input-protocolVersion-select"><i class="fa fa-cog"></i> <span data-i18n="mqtt.label.protocolVersion"></span></label>
                 <select id="node-config-input-protocolVersion-select" style="width:70%;">
                     <option value="3">MQTT V3.1 (legacy)</option>
                     <option value="4">MQTT V3.1.1</option>
                     <option value="5">MQTT V5</option>
-                    <option value="custom">Custom...</option>
                 </select>
-                <input type="text" id="node-config-input-protocolVersion-custom" placeholder="${ENV_VAR}" style="width:70%; display:none; margin-top:5px; box-sizing:border-box;" />
             </div>
             <div class="form-row">
-                <label for="node-config-input-clientid"><i class="fa fa-tag"></i> <span data-i18n="mqtt.label.clientid"></span></label>
-                <input type="text" id="node-config-input-clientid" data-i18n="[placeholder]mqtt.placeholder.clientid">
+                <label for="node-config-input-protocolVersion-custom"><i class="fa fa-code"></i> <span data-i18n="mqtt.label.dynamicProtocol"></span></label>
+                <input type="text" id="node-config-input-protocolVersion-custom" placeholder="Empty (not used) or env.var like ${MQTT_PROTOCOL}" style="width:70%;" />
             </div>
             <div class="form-row">
                 <label for="node-config-input-keepalive"><i class="fa fa-heartbeat"></i> <span data-i18n="mqtt.label.keepalive"></span></label>
