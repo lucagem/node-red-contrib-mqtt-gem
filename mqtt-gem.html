@@ -690,7 +690,11 @@
                     }
                 }
                 $("#node-config-input-protocolVersion-select").val(this.protocolVersion || "4");
-                $("#node-config-input-protocolVersion-custom").val(this.protocolVersionCustom || ""); 
+                $("#node-config-input-protocolVersion-custom").val(this.protocolVersionCustom || "");
+                // Event handler per il campo protocolVersion custom
+                $("#node-config-input-protocolVersion-custom").on("change keyup paste input", function () {
+                    // Force deploy to be activated
+                });
                 //
                 $("#node-config-input-cleansession").on("change", function () {
                     const useCleanSession = $("#node-config-input-cleansession").is(':checked');
