@@ -703,9 +703,11 @@ module.exports = function (RED) {
             if (node.compatmode == "true" || node.compatmode === true || effectiveProtocolVersion == 3 || effectiveProtocolVersion == "3") {
                 node.options.protocolId = 'MQIsdp';//V3 compat only
                 node.options.protocolVersion = 3;
+                console.log("MQTT-GEM: Using MQTT v3 (effective: " + effectiveProtocolVersion + ")");
             } else if (effectiveProtocolVersion == 5 || effectiveProtocolVersion == "5") {
                 delete node.options.protocolId;
                 node.options.protocolVersion = 5;
+                console.log("MQTT-GEM: Using MQTT v5 (effective: " + effectiveProtocolVersion + ")");
                 node.options.properties = {};
                 node.options.properties.requestResponseInformation = true;
                 node.options.properties.requestProblemInformation = true;
@@ -717,6 +719,8 @@ module.exports = function (RED) {
                 if (node.sessionExpiryInterval && node.sessionExpiryInterval !== "0") {
                     setIntProp(node, node.options.properties, "sessionExpiryInterval");
                 }
+            } else {
+                console.log("MQTT-GEM: Using MQTT v4 (default) (effective: " + effectiveProtocolVersion + ")");
             }
             // Ensure will payload, if set, is a string
             if (node.options.will && Object.hasOwn(node.options.will, 'payload')) {
@@ -801,6 +805,23 @@ module.exports = function (RED) {
                         node.client.end(true);
                         node._clientRemoveListeners();
                     }
+                    // LOG PARAMETRI DINAMICI - INIZIO
+                    var effectiveProtocolVersion = getEffectiveProtocolVersion(node);
+                    console.log("=== MQTT-GEM CONNECTION DEBUG ===");
+                    console.log("Broker Name: " + (node.name || "unnamed"));
+                    console.log("Broker URL: " + node.brokerurl);
+                    console.log("Auto Connect: " + node.autoConnect + " (type: " + typeof node.autoConnect + ")");
+                    console.log("Use TLS: " + node.usetls + " (type: " + typeof node.usetls + ")");
+                    console.log("Port (original): " + node.port + " (type: " + typeof node.port + ")");
+                    console.log("Protocol Version (select): " + node.protocolVersion);
+                    console.log("Protocol Version (custom): " + (node.protocolVersionCustom || "not set"));
+                    console.log("Protocol Version (effective): " + effectiveProtocolVersion + " (type: " + typeof effectiveProtocolVersion + ")");
+                    console.log("Client ID: " + node.options.clientId);
+                    console.log("Clean Session: " + node.options.clean);
+                    console.log("Keep Alive: " + node.options.keepalive);
+                    console.log("Final Options Protocol Version: " + node.options.protocolVersion);
+                    console.log("=== END CONNECTION DEBUG ===");
+                    // LOG PARAMETRI DINAMICI - FINE                    
                     node.client = mqtt.connect(node.brokerurl, node.options);
                     node.client.setMaxListeners(0);
                     let callbackDone = false; //prevent re-connects causing node._clientOn('connect' firing callback multiple times
