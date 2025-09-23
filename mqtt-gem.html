@@ -508,6 +508,7 @@
                     label: RED._("node-red:mqtt.label.port"),
                     validate: RED.validators.number(true)
                 },
+                protocolVersionCustom: { value: "" }, 
                 tls: {
                     type: "tls-config", required: false,
                     label: RED._("node-red:mqtt.label.use-tls")
@@ -691,9 +692,10 @@
                 }
                 $("#node-config-input-protocolVersion-select").val(this.protocolVersion || "4");
                 $("#node-config-input-protocolVersion-custom").val(this.protocolVersionCustom || "");
-                // Event handler per il campo protocolVersion custom
+                // Event handler for protocolVersion custom field
                 $("#node-config-input-protocolVersion-custom").on("change keyup paste input", function () {
-                    // Force deploy to be activated
+                    // Mark node as dirty so Deploy button is activated
+                    RED.nodes.dirty(true);
                 });
                 //
                 $("#node-config-input-cleansession").on("change", function () {
@@ -792,6 +794,7 @@
             oneditsave: function () {
                 // Save both the select value and the custom field value
                 this.protocolVersion = $("#node-config-input-protocolVersion-select").val();
+                this.protocolVersionCustom = $("#node-config-input-protocolVersion-custom").val();
                 //
                 var usetlsVal = $("#node-config-input-usetls").val();
                 if (usetlsVal !== "true" && usetlsVal !== true) {
