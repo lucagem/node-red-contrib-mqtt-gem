@@ -13,6 +13,7 @@ This is an enhanced version of the standard Node-RED MQTT nodes that allows:
   - Auto-connect (true/false)
   - TLS usage (true/false)
   - Protocol version (3, 4, 5): "3"=MQTT V3.1 (legacy); "4"=MQTT V3.1.1; "5"=MQTT V5
+    (This section adds the voice "Custom..." to the list of selectable  Protocols. If choosed a text-box appear and allow to write an environment variable. The selection is saved in 2 values "custom" and the environment variable. When the flow starts eventually if the "node-config-input-protocolVersion-custom" contains a right value it override the selection withou change the values saved)
 
 ## Installation
 
