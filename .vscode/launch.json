@@ -1,0 +1,31 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Node-RED with mqtt-gem nodes",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/node_modules/node-red/red.js",
+            "args": [
+                "--userDir", "${workspaceFolder}/.node-red-dev",
+                "--verbose"
+            ],
+            "console": "integratedTerminal",
+            "env": {
+                "NODE_ENV": "development",
+                "MQTT_PORT": "1883",
+                "MQTT_HOST": "localhost",
+                "MQTT_AUTOCONNECT": "true",
+                "MQTT_USETLS": "false"
+            },
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "restart": true,
+            "runtimeArgs": [
+                "--inspect=9229"
+            ],
+            "outputCapture": "std"
+        }
+    ]
+}
