@@ -12,7 +12,7 @@ This is an enhanced version of the standard Node-RED MQTT nodes that allows:
   - Port number
   - Auto-connect (true/false)
   - TLS usage (true/false)
-  - Protocol version (3, 4, 5)
+  - Protocol version (3, 4, 5): "3"=MQTT V3.1 (legacy); "4"=MQTT V3.1.1; "5"=MQTT V5
 
 ## Installation
 

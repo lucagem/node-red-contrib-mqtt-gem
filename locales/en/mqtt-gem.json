@@ -1,0 +1,76 @@
+{
+  "common": {
+    "label": {
+      "name": "Name",
+      "topic": "Topic",
+      "payload": "Payload",
+      "username": "Username",
+      "password": "Password"
+    }
+  },
+  "mqtt": {
+    "label": {
+      "broker": "Server",
+      "action": "Action",
+      "qos": "QoS",
+      "flags": "Flags",
+      "rh": "Retain Handling",
+      "output": "Output Type",
+      "auto-mode-depreciated": "Auto mode deprecated",
+      "example": "e.g. localhost",
+      "staticTopic": "Static topic",
+      "dynamicTopic": "Dynamic topic",
+      "port": "Port",
+      "auto-connect": "Auto connect",
+      "use-tls": "Use TLS",
+      "protocolVersion": "Protocol Version",
+      "clientid": "Client ID",
+      "keepalive": "Keep Alive",
+      "session": "Session",
+      "cleansession": "Use clean session",
+      "cleanstart": "Use clean start",
+      "autoUnsubscribe": "Auto Unsubscribe",
+      "sessionExpiry": "Session Expiry",
+      "userProperties": "User Properties",
+      "responseTopic": "Response Topic",
+      "correlationData": "Correlation Data",
+      "expiry": "Expiry",
+      "contentType": "Content Type",
+      "retain": "Retain",
+      "nl": "No Local",
+      "rap": "Retain As Published",
+      "rh0": "Send retained messages on subscribe",
+      "rh1": "Send retained messages on subscribe if subscription does not currently exist",
+      "rh2": "Do not send retained messages on subscribe",
+      "willDelay": "Will Delay"
+    },
+    "placeholder": {
+      "clientid": "Leave blank for auto generated",
+      "clientid-nonclean": "Required if not clean session",
+      "birth-topic": "Birth topic",
+      "close-topic": "Close topic",
+      "will-topic": "Will topic"
+    },
+    "tabs-label": {
+      "connection": "Connection",
+      "security": "Security",
+      "messages": "Messages"
+    },
+    "tip": "MQTT tip",
+    "false": "False",
+    "true": "True",
+    "output": {
+      "auto-detect": "Auto-detect",
+      "auto": "Auto",
+      "buffer": "Buffer",
+      "string": "String",
+      "json": "JSON",
+      "base64": "Base64"
+    },
+    "sections-label": {
+      "birth-message": "Birth Message",
+      "close-message": "Close Message",
+      "will-message": "Will Message"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "common": {
+    "label": {
+      "name": "Nome"
+    }
+  },
+  "mqtt": {
+    "label": {
+      "broker": "Server",
+      "action": "Azione",
+      "qos": "QoS",
+      "flags": "Flag",
+      "rh": "Retain Handling",
+      "output": "Tipo Output",
+      "auto-mode-depreciated": "Modalità automatica deprecata",
+      "example": "es. localhost"
+    },
+    "placeholder": {
+      "clientid": "Lascia vuoto per generazione automatica"
+    },
+    "tabs-label": {
+      "connection": "Connessione",
+      "security": "Sicurezza",
+      "messages": "Messaggi"
+    },
+    "tip": "Suggerimento MQTT"
+  }
+}
