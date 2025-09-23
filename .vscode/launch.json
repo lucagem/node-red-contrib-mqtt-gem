@@ -16,7 +16,7 @@
                 "MQTT_PORT": "1883",
                 "MQTT_HOST": "test.mosquitto.org",
                 "MQTT_PROTOCOL": "5",
-                "MQTT_AUTOCONNECT": "true",
+                "MQTT_AUTOCONNECT": "false",
                 "MQTT_USETLS": "false"
             },
             "skipFiles": [
