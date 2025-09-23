@@ -7,6 +7,8 @@
 
 **Library extension developed by [GEM srl](https://www.gemsrl.it) - Sant'Agata sul Santerno (RA), Italy** derived from [Original Node-red core library](https://github.com/node-red/node-red/blob/master/packages/node_modules/%40node-red/nodes/locales/en-US/network/)
 
+![Params](./docs/node-red-contrib-mqtt-gem%20params.png)
+
 ## 🚀 Features
 
 **node-red-contrib-mqtt-gem** extends the standard Node-RED MQTT nodes with powerful dynamic configuration capabilities:
@@ -58,6 +60,8 @@ npm install node-red-contrib-mqtt-gem
 ## 🔧 Configuration
 
 ### Environment Variables Setup
+
+![launch.json](./docs/node-red-contrib-mqtt-gem%20launch.png)
 
 **You can use ANY variable names you prefer.** The examples below use common naming conventions:
 
