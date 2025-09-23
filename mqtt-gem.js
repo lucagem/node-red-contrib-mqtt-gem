@@ -703,11 +703,11 @@ module.exports = function (RED) {
             if (node.compatmode == "true" || node.compatmode === true || effectiveProtocolVersion == 3 || effectiveProtocolVersion == "3") {
                 node.options.protocolId = 'MQIsdp';//V3 compat only
                 node.options.protocolVersion = 3;
-                console.log("MQTT-GEM: Using MQTT v3 (effective: " + effectiveProtocolVersion + ")");
+                node.log("MQTT-GEM: Using MQTT v3 (effective: " + effectiveProtocolVersion + ")");
             } else if (effectiveProtocolVersion == 5 || effectiveProtocolVersion == "5") {
                 delete node.options.protocolId;
-                node.options.protocolVersion = 5;
-                console.log("MQTT-GEM: Using MQTT v5 (effective: " + effectiveProtocolVersion + ")");
+                node.options.protocolVersion = 5; // Questo rimane ora
+                node.log("MQTT-GEM: Using MQTT v5 (effective: " + effectiveProtocolVersion + ")");
                 node.options.properties = {};
                 node.options.properties.requestResponseInformation = true;
                 node.options.properties.requestProblemInformation = true;
@@ -720,7 +720,8 @@ module.exports = function (RED) {
                     setIntProp(node, node.options.properties, "sessionExpiryInterval");
                 }
             } else {
-                console.log("MQTT-GEM: Using MQTT v4 (default) (effective: " + effectiveProtocolVersion + ")");
+                node.options.protocolVersion = 4;
+                node.log("MQTT-GEM: Using MQTT v4 (default) (effective: " + effectiveProtocolVersion + ")");
             }
             // Ensure will payload, if set, is a string
             if (node.options.will && Object.hasOwn(node.options.will, 'payload')) {
