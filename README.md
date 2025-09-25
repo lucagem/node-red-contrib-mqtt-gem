@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/node-red-contrib-mqtt-gem.svg)](https://www.npmjs.com/package/node-red-contrib-mqtt-gem)
 [![Node-RED](https://img.shields.io/badge/Node--RED-%23AA2837?style=flat&logo=nodered)](https://nodered.org)
 
-> Enhanced MQTT nodes for Node-RED with comprehensive environment variables support and dynamic configuration capabilities.
+> Add little features to Standard MQTT nodes for Node-RED using environment variables support and dynamic configuration capabilities.
 
 **Library extension developed by [GEM srl](https://www.gemsrl.it) - Sant'Agata sul Santerno (RA), Italy** derived from [Original Node-red core library](https://github.com/node-red/node-red/blob/master/packages/node_modules/%40node-red/nodes/locales/en-US/network/)
 
