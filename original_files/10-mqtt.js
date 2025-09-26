@@ -16,7 +16,7 @@
 
 module.exports = function(RED) {
     "use strict";
-    const { getProxyForUrl } = require('./lib/proxyHelper');
+    const { getProxyForUrl } = require('@node-red/runtime/lib/proxyHelper');
     var mqtt = require("mqtt");
     var isUtf8 = require('is-utf8');
     var HttpsProxyAgent = require('https-proxy-agent');

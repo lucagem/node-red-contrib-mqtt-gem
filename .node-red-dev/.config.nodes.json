@@ -429,7 +429,7 @@
     },
     "node-red-contrib-mqtt-gem": {
         "name": "node-red-contrib-mqtt-gem",
-        "version": "1.0.0-beta.1",
+        "version": "1.0.0-beta.2",
         "local": true,
         "user": false,
         "nodes": {
