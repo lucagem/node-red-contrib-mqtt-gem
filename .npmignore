@@ -1,0 +1,36 @@
+# Development files
+.node-red-dev/
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Git files
+.git/
+.gitignore
+
+# Development scripts
+setup-dev.js
+
+# Test files (when added)
+test/
+*.test.js
+coverage/
+
+# Documentation source files (keep README.md)
+docs/source/
+
+# Temporary files
+tmp/
+temp/

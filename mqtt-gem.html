@@ -508,7 +508,7 @@
                     label: RED._("node-red:mqtt.label.port"),
                     validate: RED.validators.number(true)
                 },
-                protocolVersionCustom: { value: "" }, 
+                protocolVersionCustom: { value: "" },
                 tls: {
                     type: "tls-config", required: false,
                     label: RED._("node-red:mqtt.label.use-tls")
@@ -888,16 +888,19 @@
                 rh: { value: 0 },
                 inputs: { value: 0 },
             },
-            color: "#d8bfd8",
+            color: "#87CEEB",
             inputs: 0,
             outputs: 1,
             icon: "bridge.svg",
+            paletteLabel: "mqtt gem in",
             label: function () {
-                var label = "mqtt";
-                if (this.topicType !== "dynamic" && this.topic) {
-                    label = this.topic;
+                if (this.name) {
+                    return this.name;
                 }
-                return this.name || label;
+                if (this.topicType !== "dynamic" && this.topic) {
+                    return this.topic;
+                }
+                return "mqtt gem in";  // Nome predefinito invece di "mqtt"
             },
             labelStyle: function () {
                 return this.name ? "node_label_italic" : "";
@@ -975,13 +978,20 @@
                     label: RED._("node-red:mqtt.label.broker")
                 }
             },
-            color: "#d8bfd8",
+            color: "#87CEEB",
             inputs: 1,
             outputs: 0,
             icon: "bridge.svg",
+            paletteLabel: "mqtt gem out",
             align: "right",
             label: function () {
-                return this.name || this.topic || "mqtt";
+                if (this.name) {
+                    return this.name;
+                }
+                if (this.topic) {
+                    return this.topic;
+                }
+                return "mqtt gem out";  // Nome predefinito invece di "mqtt"
             },
             oneditprepare: function () {
                 var that = this;
