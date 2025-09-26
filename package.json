@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-mqtt-gem",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.5",
   "description": "MQTT nodes with environment variables support for dynamic enable and parameters",
   "main": "mqtt-gem.js",
   "scripts": {
@@ -49,6 +49,7 @@
   "files": [
     "mqtt-gem.js",
     "mqtt-gem.html",
+    "lib/",
     "locales/",
     "README.md",
     "LICENSE",
