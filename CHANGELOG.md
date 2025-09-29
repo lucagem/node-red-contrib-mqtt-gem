@@ -5,22 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0-beta.7] - 2025-09-26
+## [1.0.0] - 2025-09-29
 
-### Added
-- Initial beta release
-- MQTT broker configuration with environment variables support
-- Dynamic enable/disable for MQTT connections via `Auto Connect` field
-- Environment variable support for:
-  - Port configuration (accepts any variable name)
-  - Auto-connect control (checkbox replaced with text input)
-  - TLS configuration (checkbox replaced with text input) 
-  - Protocol version selection (combo with custom text input)
-- Visual status indicators for disabled nodes
-- Disabled nodes show "disabled" in gray and block message processing
-- Support for MQTT v3.1, v3.1.1, and v5.0 protocols
-- Complete compatibility with Node-RED's environment variable resolution (`${variable_name}`)
-- No conflicts with core MQTT nodes
+### 🎉 First Stable Release
+- Initial stable release of node-red-contrib-mqtt-gem
+- Full support for environment variables in MQTT broker configuration
+- Dynamic enable/disable broker functionality
+- Support for MQTT protocols 3.1, 3.1.1, and 5.0
+- Configurable via environment variables: Port, Auto-connect, TLS, Protocol
+- Visual status indicators for disabled brokers
+- Complete Italian and English localization
+
+### Previous Beta Releases
+- Beta versions 1.0.0-beta.1 through 1.0.0-beta.7
+- Testing and refinement of core functionality
 
 ### Enhanced
 - Extended core Node-RED MQTT nodes with advanced dynamic configuration
